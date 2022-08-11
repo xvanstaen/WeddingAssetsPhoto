@@ -94,6 +94,7 @@ export class GetImagesComponent {
     recordToUpdate:number=0;
     updateRecord:number=0;
     init:boolean=true;
+    try_getList:number=0;
 
     Tab_NameListPhotos:Array<string>=[];
 
@@ -105,7 +106,14 @@ onWindowResize() {
 
 
 ngOnInit(){
-      this.LogMsgConsole('ngOnInit Event27AUG2022 ===== Device ' + navigator.userAgent + '======');
+  for (this.i=0; this.i<this.ConfigXMV.UserSpecific.length && this.identification.UserId!==this.ConfigXMV.UserSpecific[this.i].id; this.i++){
+
+  }
+  if (this.i<this.ConfigXMV.UserSpecific.length){
+    this.myLogConsole=this.ConfigXMV.UserSpecific[this.i].log;
+  }
+
+      this.LogMsgConsole('ngOnInit GetImages ===== Device ' + navigator.userAgent + '======');
 
       this.getScreenWidth = window.innerWidth;
       this.getScreenHeight = window.innerHeight;
@@ -156,6 +164,7 @@ ngOnInit(){
         this.bucketMgt.array_i_loop[this.bucketMgt.i_Bucket-1]=0;
         // TO BE USED WHEN WANT TO RETRIEVE ALL BUCKETS AT ONCE
         if (this.bucketMgt.GetOneBucketOnly===true){
+          this.LogMsgConsole('ngOnInit GetImages ===== before calling this.getListPhotos; i_Bucket is '+this.bucketMgt.i_Bucket);
           if (this.bucketMgt.i_Bucket===1){
                 // this.getListPhotos(this.bucketMgt.bucket_wedding_name[this.bucketMgt.i_Bucket-1], this.bucketMgt.i_Bucket);
                 this.getListPhotos(this.ConfigXMV.TabBucketPhoto[this.bucketMgt.i_Bucket-1], this.bucketMgt.i_Bucket);
@@ -170,7 +179,7 @@ ngOnInit(){
     
       // want to be sure that all buckets have been accessed
       this.bucketMgt.i_Bucket=1;
-      //this.LogMsgConsole('before calling access_one_bucket - this.bucketMgt.GetOneBucketOnly is set to '+this.bucketMgt.GetOneBucketOnly);
+      this.LogMsgConsole('before calling access_one_bucket - this.bucketMgt.GetOneBucketOnly is set to '+this.bucketMgt.GetOneBucketOnly);
 
       // TO BE USED WHEN WANT TO RETRIEVE ALL BUCKETS AT ONCE
       // //this.LogMsgConsole('before calling access_all_buckets() '+this.bucketMgt.bucket_is_processed);
@@ -183,24 +192,24 @@ ngOnInit(){
 access_all_buckets(){
 // HOW TO FORCE TO THE STORAGE OF THE RIGHT BUCKET AT THE END OF THE TABLE
     if (this.bucketMgt.array_i_loop[this.bucketMgt.i_Bucket-1]%20===0){
-        //this.LogMsgConsole('access bucket '+this.ConfigXMV.TabBucketPhoto[this.bucketMgt.i_Bucket-1] + ' bucketMgt.i_Bucket='+ this.bucketMgt.i_Bucket+ ' + i_loop=' + this.bucketMgt.array_i_loop[this.bucketMgt.i_Bucket-1]+ '  bucketMgt.bucket_list_returned'+ this.bucketMgt.bucket_list_returned[this.bucketMgt.i_Bucket-1]);
+        this.LogMsgConsole('access bucket '+this.ConfigXMV.TabBucketPhoto[this.bucketMgt.i_Bucket-1] + ' bucketMgt.i_Bucket='+ this.bucketMgt.i_Bucket+ ' + i_loop=' + this.bucketMgt.array_i_loop[this.bucketMgt.i_Bucket-1]+ '  bucketMgt.bucket_list_returned'+ this.bucketMgt.bucket_list_returned[this.bucketMgt.i_Bucket-1]);
     }
     this.id_Animation=window.requestAnimationFrame(() => this. access_all_buckets());
     this.bucketMgt.array_i_loop[this.bucketMgt.i_Bucket-1]++;
     // check how to manage error_server
     if (this.bucketMgt.array_i_loop[this.bucketMgt.i_Bucket-1]>this.max_i_loop || this.bucketMgt.bucket_list_returned[this.bucketMgt.i_Bucket-1]==='1'){
        
-      //this.LogMsgConsole('===== bucket# '+ this.bucketMgt.i_Bucket+ 'processed; this.i_loop='+ this.bucketMgt.array_i_loop[this.bucketMgt.i_Bucket-1]+ 'length global table='+ this.WeddingPhotos.length+ 'length specific table='+ this.Bucket_Info_Array[this.bucketMgt.i_Bucket-1].items.length);
+      this.LogMsgConsole('===== bucket# '+ this.bucketMgt.i_Bucket+ 'processed; this.i_loop='+ this.bucketMgt.array_i_loop[this.bucketMgt.i_Bucket-1]+ 'length global table='+ this.WeddingPhotos.length+ 'length specific table='+ this.Bucket_Info_Array[this.bucketMgt.i_Bucket-1].items.length);
       
                   // check for next bucket only if process all buckets at once
       if (this.bucketMgt.GetOneBucketOnly===false){
         this.bucketMgt.i_Bucket++
       }
 
-      //this.LogMsgConsole('===== bucket - process next bucket which is '+ this.bucketMgt.i_Bucket + ' bucketMgt.GetOneBucketOnly is '+this.bucketMgt.GetOneBucketOnly);
+      this.LogMsgConsole('===== bucket - process next bucket which is '+ this.bucketMgt.i_Bucket + ' bucketMgt.GetOneBucketOnly is '+this.bucketMgt.GetOneBucketOnly);
       if (this.bucketMgt.i_Bucket===this.bucketMgt.Max_Nb_Bucket_Wedding+1 || this.bucketMgt.GetOneBucketOnly===true){
             
-          //this.LogMsgConsole('===== bucket - all buckets processed; fill-in now WeddingPhotos ');
+          this.LogMsgConsole('===== bucket - all buckets processed; fill-in now WeddingPhotos ');
             this.j=-1;
             let i=1;
             if (this.bucketMgt.GetOneBucketOnly===true && this.bucketMgt.Nb_Buckets_processed>0){ 
@@ -234,6 +243,7 @@ access_all_buckets(){
     } // condition on loop exceeding or bucket data was received
   }
 fillFromBucket(){
+  this.LogMsgConsole('===== fillFromBucket()');
   const Assets='../assets/xavier-monica-mariage/';
   const pushPhotos=new StructurePhotos;
   this.WeddingPhotos.push(pushPhotos);
@@ -268,7 +278,7 @@ process_next_bucket(bucket_nb:number){
     }
     this.access_all_buckets();
     
-    //this.LogMsgConsole('end process_next_bucket ='+this.bucketMgt.i_Bucket+'  and new table length is ='+this.WeddingPhotos.length);
+    this.LogMsgConsole('end process_next_bucket ='+this.bucketMgt.i_Bucket+'  and new table length is ='+this.WeddingPhotos.length);
   }
 
 
@@ -276,16 +286,17 @@ process_next_bucket(bucket_nb:number){
 
 
 getListPhotos(BucketPhotos:string, bucket_nb:number){
+    this.error_message='';
     // get list of objects in bucket
-    //this.LogMsgConsole('getListPhotos() from '+BucketPhotos+'  nb='+bucket_nb);
+    this.LogMsgConsole('getListPhotos() from '+BucketPhotos+'  nb='+bucket_nb);
     this.bucketMgt.bucket_list_returned[bucket_nb-1]='0';
     //const HTTP_Address='https://storage.googleapis.com/storage/v1/b/' + BucketPhotos + "/o";
     const HTTP_Address='../assets/NameListPhotos.json';
-  
+    this.LogMsgConsole('HTTP_Address='+HTTP_Address);
     this.http.get<any>(HTTP_Address )
           .subscribe(data => {
                 this.bucketMgt.bucket_list_returned[bucket_nb-1]='1';
-                //this.LogMsgConsole('getListPhotos() - received data from BucketPhotos '+BucketPhotos);
+                this.LogMsgConsole('getListPhotos() - received data from BucketPhotos '+BucketPhotos);
                 console.log('received data'+data);
                 
                 this.Tab_NameListPhotos=data;
@@ -295,13 +306,18 @@ getListPhotos(BucketPhotos:string, bucket_nb:number){
               error_handler => {
                 //console.log('getListPhoto : error message==> ' + error_handler.message + ' error code status==> '+ error_handler.status + ' error status==> '+ error_handler.statusText+'   name=> '+ error_handler.name + '   Error url==>  '+ error_handler.url);
                 //console.log('=== ALERT === retrigger the ngOnInit() process after failure of getListPhoto()');
-                //this.LogMsgConsole('getListPhoto : error message==> ' + error_handler.message + ' error code status==> '+ error_handler.status + ' error status==> '+ error_handler.statusText+'   name=> '+ error_handler.name + '   Error url==>  '+ error_handler.url);
-                //this.LogMsgConsole('=== ALERT === retrigger the ngOnInit() process after failure of getListPhoto()');
+                this.LogMsgConsole('getListPhoto : error message==> ' + error_handler.message + ' error code status==> '+ error_handler.status + ' error status==> '+ error_handler.statusText+'   name=> '+ error_handler.name + '   Error url==>  '+ error_handler.url);
+                this.LogMsgConsole('=== ALERT === retrigger the ngOnInit() process after failure of getListPhoto()');
                 // alert(this.message  + ' -- http get = ' + this.HTTP_Address);
                  // this.bucketMgt.bucket_list_returned[bucket_nb-1]="0";
-                  
+                 this.try_getList++
                  console.log(error_handler);
-                 this.ngOnInit();
+                
+                 this.bucketMgt.bucket_list_returned[bucket_nb-1]='1';
+                 if (this.try_getList<2){
+                        this.ngOnInit();
+                        this.error_message='Cannot get the list of photos';
+                  }
                 } 
           )
   

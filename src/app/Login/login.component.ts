@@ -142,7 +142,7 @@ export class LoginComponent {
           this.myForm.controls['action'].setValue("");
         }
 
-
+        this.Encrypt_Data=this.identification;
 
   }
 

@@ -188,17 +188,11 @@ SizeImage(){
         this.myConsole.push(theMSG)
         this.myConsole[this.myConsole.length-1].msg=this.EventLogConsole[this.i].msg;
         this.myConsole[this.myConsole.length-1].timestamp=this.EventLogConsole[this.i].timestamp;
-
-
-        //this.myConsole.push('');
-        //this.myConsole[this.myConsole.length-1]=this.EventLogConsole[this.i];
       }
       // delete EventLogConsole as it has been stored in myConsole
-      this.EventLogConsole.splice(0,this.EventLogConsole.length);
-      // other option wwas to save this log before starting process on WeddingPhotos
-      //this.saveLogConsole(this.EventLogConsole,'Event27AUG');
+     this.EventLogConsole.splice(0,this.EventLogConsole.length);
+
     }
-    //this.LogMsgConsole('Device '+navigator.userAgent);
     this.LogMsgConsole('ngOnInit() WeddingPhotos; bucketMgt.bucket_is_processed is '+ this.bucketMgt.bucket_is_processed+ ' size file '+ this.WeddingPhotos.length);
    
     this.SizeImage();
@@ -232,7 +226,7 @@ SizeImage(){
   }    
 
   ngAfterViewInit() { 
-    this.LogMsgConsole('ngAfterViewInit() - WeddingPhotos.length'+this.WeddingPhotos.length+' isWeddingPhotoEmpty'+this.isWeddingPhotoEmpty+'  ConfigXMV.process_display_canvas is '+this.ConfigXMV.process_display_canvas);
+    //this.LogMsgConsole('ngAfterViewInit() - WeddingPhotos.length'+this.WeddingPhotos.length+' isWeddingPhotoEmpty'+this.isWeddingPhotoEmpty+'  ConfigXMV.process_display_canvas is '+this.ConfigXMV.process_display_canvas);
       
     if (this.ConfigXMV.process_display_canvas===true){
       this.theCanvas=document.getElementById('canvasElem');
