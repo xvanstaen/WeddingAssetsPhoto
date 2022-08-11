@@ -290,8 +290,8 @@ getListPhotos(BucketPhotos:string, bucket_nb:number){
     // get list of objects in bucket
     this.LogMsgConsole('getListPhotos() from '+BucketPhotos+'  nb='+bucket_nb);
     this.bucketMgt.bucket_list_returned[bucket_nb-1]='0';
-    const HTTP_Address="https://storage.googleapis.com/storage/v1/b/config-xmvit/o/NameListPhotos.json?alt=media"; 
-    //const HTTP_Address='./NameListPhotos.json';
+    //const HTTP_Address="https://storage.googleapis.com/storage/v1/b/config-xmvit/o/NameListPhotos.json?alt=media"; 
+    const HTTP_Address='./assets/NameListPhotos.json';
     this.LogMsgConsole('HTTP_Address='+HTTP_Address);
     this.http.get<any>(HTTP_Address )
           .subscribe(data => {
