@@ -291,7 +291,7 @@ getListPhotos(BucketPhotos:string, bucket_nb:number){
     this.LogMsgConsole('getListPhotos() from '+BucketPhotos+'  nb='+bucket_nb);
     this.bucketMgt.bucket_list_returned[bucket_nb-1]='0';
     //const HTTP_Address='https://storage.googleapis.com/storage/v1/b/' + BucketPhotos + "/o";
-    const HTTP_Address='../assets/NameListPhotos.json';
+    const HTTP_Address='./NameListPhotos.json';
     this.LogMsgConsole('HTTP_Address='+HTTP_Address);
     this.http.get<any>(HTTP_Address )
           .subscribe(data => {
