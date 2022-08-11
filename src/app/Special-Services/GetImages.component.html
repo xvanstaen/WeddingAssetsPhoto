@@ -1,4 +1,4 @@
-<img src="./xavier-monica-mariage/A - GrandParents & Twins.png" style="width:100px; height:60px;">
+<img src="./assets/xavier-monica-mariage/A - GrandParents & Twins.png" style="width:100px; height:60px;">
  
   <div *ngIf="bucketMgt.bucket_is_processed===true && error_message===''">
     <app-WeddingPhotos [EventLogConsole]="myConsole" [myLogConsole]="myLogConsole" [ConfigXMV]="ConfigXMV" 
@@ -14,6 +14,7 @@
   </div>
 
   <div *ngIf="error_message!==''" > 
+    
     <span style="margin-top:2px;"><br></span>
     <h1 style="margin-top:20px; margin-left:90px; color:red; font-weight:bold;"><br>{{error_message}}</h1>
   <br><br> <br><br> <br><br>  
